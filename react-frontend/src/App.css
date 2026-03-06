@@ -1,42 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface-hover: #1f2330;
+  --border: #2a2d3a;
+  --text-primary: #e8e9f0;
+  --text-secondary: #6b7080;
+  --nav-bg: #13151f;
+  --badge-admin-bg: #ef4444;
+  --badge-admin-text: #fff;
+  --badge-user-bg: #2a3a5c;
+  --badge-user-text: #7aadff;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
+  --shadow-hover: 0 4px 24px rgba(0,0,0,0.4);
+  --radius: 12px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* ── Nav ──────────────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5rem;
+  height: 60px;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+}
+
+.nav h1 {
+  margin: 0;
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.nav p {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+/* ── Root ─────────────────────────────────────────── */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 2.5rem auto;
+  padding: 0 2.5rem;
+  text-align: left;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ── List container ───────────────────────────────── */
+.users-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* ── Card (horizontal) ────────────────────────────── */
+.user-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.user-card:hover {
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-hover);
+  border-color: #3a3d4a;
 }
 
-.card {
-  padding: 2em;
+.user-card h2 {
+  margin: 0;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  min-width: 160px;
 }
 
-.read-the-docs {
-  color: #888;
+.user-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  flex: 1;
+}
+
+.user-card li {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Badges ───────────────────────────────────────── */
+.admin,
+.user {
+  display: inline-block;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.admin {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.user {
+  background: var(--badge-user-bg);
+  color: var(--badge-user-text);
+  border: 1px solid rgba(122, 173, 255, 0.2);
+}
+
+.spinner {
+  display: inline-block;
+  margin-top: 2rem;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

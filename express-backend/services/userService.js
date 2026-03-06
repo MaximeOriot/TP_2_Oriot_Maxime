@@ -3,6 +3,9 @@ const User = require('../models/userModel');
 
 class UserService {
     async getAll(role) {
+        if (role) {
+            return await User.find({ role });
+        }
         return await User.find({});
     }
 
@@ -15,6 +18,7 @@ class UserService {
                 city: 'bordeaux',
                 country: 'france',
             },
+            role
         });
     }
 
@@ -23,7 +27,7 @@ class UserService {
     }
 
     async update(id, name, email, role) {
-        return await User.updateOne({ _id: id }, { name, email });
+        return await User.updateOne({ _id: id }, { name, email, role });
     }
 
     async delete(id) {

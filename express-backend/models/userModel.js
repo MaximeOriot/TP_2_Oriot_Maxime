@@ -21,6 +21,7 @@ const userSchema = new Schema({
         city: String,
         country: String,
     },
+    role: String,
 });
 const User = model('User', userSchema);
 module.exports = User;

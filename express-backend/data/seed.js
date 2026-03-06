@@ -19,6 +19,7 @@ const insertUsers = async () => {
                         city: 'bordeaux',
                         country: 'france',
                     },
+                    role: 'admin',
                 },
                 {
                     name: 'Enzo le dozo',
@@ -28,6 +29,7 @@ const insertUsers = async () => {
                         city: 'bordeaux',
                         country: 'france',
                     },
+                    role: 'user',
                 },
                 {
                     name: 'Samuel',
@@ -37,6 +39,7 @@ const insertUsers = async () => {
                         city: 'bordeaux',
                         country: 'france',
                     },
+                    role: 'user',
                 },
             ]);
         } catch (error) {
