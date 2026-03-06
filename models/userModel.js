@@ -1,67 +1,26 @@
-const { USERS } = require('../data/user');
-
-class UserModel {
-    getAll(role) {
-        let filteredUsers = USERS;
-        if (role) {
-        filteredUsers = USERS.filter(u => u.role === role);
-        }
-        return filteredUsers;
-    }
-
-    create(name, email, role) {
-        const emailVerification = USERS.some(u => u.email === email);
-        if (emailVerification) {
-        throw new Error('Email already exists');
-        }
-        const newUser = {
-            id: USERS.length + 1,
-            name,
-            email,
-            role,
-            createdAt: new Date().toISOString(),
-        };
-        USERS.push(newUser);
-        return newUser;
-    }
-
-    getById(id) {
-        const userId = parseInt(id);
-        const user = USERS.find(u => u.id === userId);
-        if (!user) {
-            throw new Error('User not found');
-        }
-        return user;
-    }
-
-    update(id, name, email, role) {
-        const userId = parseInt(id);
-        const userIndex = USERS.findIndex(u => u.id === userId);
-        if (userIndex === -1) {
-            throw new Error('User not found');
-        }
-        const emailVerification = USERS.some(u => u.email === email);
-        if (emailVerification) {
-            throw new Error('Email already exists');
-        }
-        const updatedUser = {
-            ...USERS[userIndex],
-            name: name || USERS[userIndex].name,
-            email: email || USERS[userIndex].email,
-            role: role || USERS[userIndex].role,
-        };
-        USERS[userIndex] = updatedUser;
-        return updatedUser;
-    }
-
-    delete(id) {
-        const userId = parseInt(id);
-        const userIndex = USERS.findIndex(u => u.id === userId);
-        if (userIndex === -1) {
-            throw new Error('User not found');
-        }
-        USERS.splice(userIndex, 1);
-    }
-}
-
-exports.UserModel = UserModel;
+const { Schema, model } = require('mongoose');
+const userSchema = new Schema({
+    name: {
+        type: String,
+        required: [true, 'Le nom est obligatoire'],
+        trim: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, 'Email invalide'],
+    },
+    createdAt: {
+            type: Date,
+            default: Date.now,
+    },
+    tags: [String], // tableau de strings
+    address: { // objet imbriqué
+        city: String,
+        country: String,
+    },
+});
+const User = model('User', userSchema);
+module.exports = User;

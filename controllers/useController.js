@@ -1,35 +1,74 @@
-const { UserModel } = require('../models/userModel');
+const { UserService } = require('../services/userService');
 
 class UserController {
     constructor() {
-        this.userModel = new UserModel();
+        this.userService = new UserService();
     }
 
-    getAllUsers(req, res) {
+    async getAllUsers(req, res) {
         const { role } = req.query;
-        res.json(this.userModel.getAll(role));
+        try {
+            res.json(await this.userService.getAll(role));
+        } catch (error) {
+            res.status(500).json({ message: "Server error" });
+            console.error('getAllUsers error -> ', error);
+        }
     }
 
-    createUser(req, res) {
+    async createUser(req, res) {
         const { name, email, role } = req.body;
-        res.status(201).json(this.userModel.create(name, email, role));
+        try {
+            res.status(201).json(await this.userService.create(name, email, role));
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+            console.error('createUser error -> ', error);
+        }
+        
     }
 
-    getUserById(req, res) {
-        const { id } = req.params;
-        res.json(this.userModel.getById(id));
+    async getUserById(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await this.userService.getById(id);
+
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ message: "Server error" });
+            console.error('getUserById error -> ', error);
+        }
     }
 
-    updateUser(req, res) {
-        const { id } = req.params;
-        const { name, email, role } = req.body;
-        res.json(this.userModel.update(id, name, email, role));
+    async updateUser(req, res) {
+        try {
+            const { id } = req.params;
+            const { name, email, role } = req.body;
+
+            const user = await this.userService.update(id, name, email, role);
+
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            res.json(user);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+            console.error('updateUser error -> ', error);
+        }
     }
 
-    deleteUser(req, res) {
-        const { id } = req.params;
-        this.userModel.delete(id);
-        res.status(204).send();
+    async deleteUser(req, res) {
+        try {
+            const { id } = req.params;
+            await this.userService.delete(id);
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: "Server error" });
+            console.error('deleteUser error -> ', error);
+        }
     }
 }
 
